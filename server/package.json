@@ -5,7 +5,9 @@
     "dev": "bun --watch src/index.ts",
     "build": "bun build src/index.ts",
     "start": "NODE_ENV=production bun src/index.ts",
-    "test": "bun test"
+    "test": "bun test",
+    "lint": "eslint --fix \"src/**/*.ts\" && tsc --noEmit",
+    "lint:prettier": "prettier --write \"src/**/*.ts\""
   },
   "dependencies": {
     "elysia": "latest"
