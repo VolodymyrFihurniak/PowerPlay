@@ -1,0 +1,35 @@
+{
+	"name": "PowerPlay: Alpine-3.20",
+	"build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+			"USERNAME": "${localEnv:USER}"
+		}
+  },
+	"features": {
+		"ghcr.io/cirolosapio/devcontainers-features/alpine-node:0": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"EditorConfig.EditorConfig",
+				"dbaeumer.vscode-eslint",
+				"GitHub.copilot",
+				"GitHub.codespaces",
+				"GitHub.copilot-chat",
+				"VisualStudioExptTeam.vscodeintellicode",
+				"VisualStudioExptTeam.intellicode-api-usage-examples",
+				"xabikos.JavaScriptSnippets",
+				"esbenp.prettier-vscode",
+				"ms-azuretools.vscode-docker",
+				"redhat.vscode-yaml",
+				"cweijan.vscode-postgresql-client2",
+				"YoavBls.pretty-ts-errors",
+				"42Crunch.vscode-openapi",
+				"eamodio.gitlens",
+				"github.vscode-github-actions",
+				"Prisma.prisma"
+			]
+		}
+	}
+}
