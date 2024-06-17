@@ -7,9 +7,14 @@
     "start": "NODE_ENV=production bun src/index.ts",
     "test": "bun test",
     "lint": "eslint --fix \"src/**/*.ts\" && tsc --noEmit",
-    "lint:prettier": "prettier --write \"src/**/*.ts\""
+    "lint:prettier": "prettier --write \"src/**/*.ts\"",
+    "seed": "bun x prisma db seed"
+  },
+  "prisma": {
+    "seed": "ts-node scripts/seed.ts"
   },
   "dependencies": {
+    "@prisma/client": "5.15.0",
     "elysia": "latest"
   },
   "devDependencies": {
@@ -23,6 +28,7 @@
     "globals": "^15.5.0",
     "prettier": "^3.3.2",
     "prisma": "^5.15.0",
+    "ts-node": "^10.9.2",
     "typescript-eslint": "^7.13.0"
   },
   "module": "src/index.js"

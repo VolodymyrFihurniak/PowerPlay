@@ -30,7 +30,14 @@ RUN sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
     sed -i "s/plugins=(git)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting async zsh-nvm)/g" ~/.zshrc
 
 RUN curl -fsSL https://bun.sh/install | bash
-RUN echo 'alias bunx="bun x"' >> ~/.zshrc
 ENV PATH="/home/${USERNAME}/.bun/bin:$PATH"
+
+RUN echo 'export BUN_INSTALL="$HOME/.bun"' >> ~/.zshrc
+RUN echo 'export PATH="$BUN_INSTALL/bin:$PATH"' >> ~/.zshrc
+RUN echo 'alias bunx="bun x"' >> ~/.zshrc
+
+RUN echo 'export PATH="$HOME/.bun/bin:$PATH"' >> ~/.bashrc
+RUN echo 'export BUN_INSTALL="$HOME/.bun"' >> ~/.bashrc
+RUN echo 'alias bunx="bun x"' >> ~/.bashrc
 
 ENTRYPOINT ["/bin/zsh"]

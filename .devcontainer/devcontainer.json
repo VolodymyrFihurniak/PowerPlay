@@ -28,7 +28,8 @@
         "42Crunch.vscode-openapi",
         "eamodio.gitlens",
         "github.vscode-github-actions",
-        "Prisma.prisma"
+        "Prisma.prisma",
+        "usernamehw.errorlens"
       ]
     }
   }
