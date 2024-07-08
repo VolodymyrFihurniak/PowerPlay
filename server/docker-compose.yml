@@ -1,6 +1,6 @@
 name: power-play
 services:
-  postgresql:
+  postgresql-power-play:
     image: postgres:16.3
     ports:
       - 5432:5432
@@ -21,7 +21,7 @@ services:
       - /opt/services/power-play/postgresql/data:/var/lib/postgresql/data
     networks:
       - power-play-network
-    container_name: postgresql
+    container_name: postgresql-power-play
 
 networks:
   power-play-network:
