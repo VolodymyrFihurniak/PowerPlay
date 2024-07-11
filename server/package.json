@@ -2,9 +2,9 @@
   "name": "power-play-server",
   "version": "1.0.0",
   "scripts": {
-    "dev": "bun --watch src/app.ts",
-    "build": "bun build src/app.ts",
-    "start": "NODE_ENV=production bun src/app.ts",
+    "dev": "bun --watch src/server.ts",
+    "build": "bun build src/server.ts",
+    "start": "NODE_ENV=production bun src/server.ts",
     "test": "bun test",
     "lint": "eslint --fix \"src/**/*.ts\" && tsc --noEmit",
     "lint:prettier": "prettier --write \"src/**/*.ts\"",
@@ -32,5 +32,5 @@
     "ts-node": "^10.9.2",
     "typescript-eslint": "^7.13.0"
   },
-  "module": "src/app.js"
+  "module": "src/server.js"
 }

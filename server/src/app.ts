@@ -43,5 +43,5 @@ class App {
     serverLogger.info(`Server is running at http://${this.elysia.server?.hostname}:${this.elysia.server?.port}`);
   };
 }
-const app = new App(new Elysia());
-await app.start();
+
+export { App };
