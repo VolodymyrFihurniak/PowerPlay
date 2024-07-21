@@ -1,11 +1,14 @@
+import { cors } from '@elysiajs/cors';
 import Config from '@entities/config';
-import { ApiRoute, BaseRoute } from '@routes';
+import { unmatchedRoute } from '@errors/unmatchedRoute';
+import { loggingRoutePlugin } from '@plugins/loggingRoutePlugin';
+import { swaggerPlugin } from '@plugins/swaggerPlugin';
+import { APIRoute, BaseRoute } from '@routes';
 import { serverLogger } from '@utils/logger';
 import { Elysia } from 'elysia';
 
-import { loggingRoutePlugin } from '@src/plugins/loggingRoutePlugin';
-
 class App {
+  private config!: Config;
   readonly routes: Array<BaseRoute> = [];
   constructor(readonly elysia: Elysia) {}
 
@@ -23,25 +26,29 @@ class App {
 
   public injectPlugin = (): void => {
     this.elysia.use(loggingRoutePlugin(serverLogger));
+    this.elysia.use(cors());
+    this.elysia.use(swaggerPlugin);
+    this.elysia.use(unmatchedRoute);
   };
 
   public init = async (): Promise<void> => {
     this.injectPlugin();
-    this.routes.push(new ApiRoute(this.elysia, 'api'));
+    this.routes.push(new APIRoute('API'));
+    this.config = this.getConfig(process.env);
   };
 
   public start = async (): Promise<void> => {
     await this.init();
-    const config = this.getConfig(process.env);
     this.routes.forEach((route) => {
+      serverLogger.info(`Configuring route: ${route.getName()}`);
       this.elysia.use(route.configureRoutes());
     });
     this.elysia.listen({
-      port: config.appPort,
-      hostname: config.appBind,
+      port: this.config.appPort,
+      hostname: this.config.appBind,
     });
     serverLogger.info(`Server is running at http://${this.elysia.server?.hostname}:${this.elysia.server?.port}`);
   };
 }
-const app = new App(new Elysia());
-await app.start();
+
+export { App };
