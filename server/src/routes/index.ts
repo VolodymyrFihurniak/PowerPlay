@@ -1,4 +1,4 @@
-import ApiRoute from './apiRoute';
+import APIRoute from './apiRoute';
 import BaseRoute from './baseRoute';
 
-export { BaseRoute, ApiRoute };
+export { BaseRoute, APIRoute };

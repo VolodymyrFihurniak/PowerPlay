@@ -1,16 +1,19 @@
 import BaseRoute from './baseRoute';
 import { Elysia } from 'elysia';
 
-class ApiRoute extends BaseRoute {
-  constructor(elysia: Elysia, name: string) {
-    super(elysia, name);
+class APIRoute extends BaseRoute {
+  private elysia: Elysia;
+  constructor(name: string) {
+    super(name);
+    this.elysia = new Elysia({ name, prefix: `/${name.toLowerCase()}` });
   }
 
   public configureRoutes(): Elysia {
-    return this.elysia.get('/api/version', () => {
+    this.elysia.get('/version', () => {
       return JSON.stringify({ version: process.env.npm_package_version });
     });
+    return this.elysia;
   }
 }
 
-export default ApiRoute;
+export default APIRoute;
