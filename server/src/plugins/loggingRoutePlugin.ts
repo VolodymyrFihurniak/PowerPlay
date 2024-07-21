@@ -5,7 +5,7 @@ export const loggingRoutePlugin =
   (logger: Logger) =>
   (app: Elysia): Elysia => {
     return app.use(
-      new Elysia({ name: 'logging-route' }).onRequest((ctx: PreContext) => {
+      new Elysia({ name: 'logging-route-plugin' }).onRequest((ctx: PreContext) => {
         const socketAddress = app.server?.requestIP(ctx.request);
 
         const { method, url } = ctx.request ?? {};

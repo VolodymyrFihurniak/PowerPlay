@@ -1,12 +1,11 @@
 import { cors } from '@elysiajs/cors';
-import { ElysiaSwaggerConfig, swagger } from '@elysiajs/swagger';
 import Config from '@entities/config';
 import { unmatchedRoute } from '@errors/unmatchedRoute';
+import { loggingRoutePlugin } from '@plugins/loggingRoutePlugin';
+import { swaggerPlugin } from '@plugins/swaggerPlugin';
 import { APIRoute, BaseRoute } from '@routes';
 import { serverLogger } from '@utils/logger';
 import { Elysia } from 'elysia';
-
-import { loggingRoutePlugin } from '@src/plugins/loggingRoutePlugin';
 
 class App {
   private config!: Config;
@@ -28,21 +27,7 @@ class App {
   public injectPlugin = (): void => {
     this.elysia.use(loggingRoutePlugin(serverLogger));
     this.elysia.use(cors());
-
-    const swaggerOptions: ElysiaSwaggerConfig<'/api-docs'> = {
-      documentation: {
-        info: {
-          title: 'Elysia Documentation',
-          version: '1.0.0',
-        },
-        tags: [
-          { name: 'API', description: 'General endpoints' },
-          { name: 'Auth', description: 'Authentication endpoints' },
-        ],
-      },
-      path: '/api-docs',
-    };
-    this.elysia.use(swagger(swaggerOptions));
+    this.elysia.use(swaggerPlugin);
     this.elysia.use(unmatchedRoute);
   };
 
