@@ -17,13 +17,27 @@ model User {
   id           Int           @id @default(autoincrement())
   email        String        @unique
   password     String
-  name         String
+  firstname    String
+  secondname   String
+  ncikname     String
   role         UserRole      @default(USER)
   reservations Reservation[]
   sessions     Session[]
   payments     Payment[]
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
+  authToken    AuthToken[]
+}
+
+model AuthToken {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  token     String
+  tokenType String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
 }
 
 model Computer {
@@ -101,4 +115,10 @@ enum ComputerStatus {
   AVAILABLE
   IN_USE
   MAINTENANCE
+  BOOKED
+}
+
+enum AuthTokenType {
+  ACCESS
+  REFRESH
 }
