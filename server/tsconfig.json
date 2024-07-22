@@ -29,6 +29,9 @@
     "paths": {
       "@src/*": ["src/*"] /* Specify a set of entries that re-map imports to additional lookup locations. */,
       "@routes": ["src/routes/"],
+      "@routes/*": ["src/routes/*"],
+      "@docs/*": ["src/docs/*"],
+      "@controllers/*": ["src/controllers/*"],
       "@utils/*": ["src/utils/*"],
       "@entities/*": ["src/entities/*"],
       "@middlewares/*": ["src/plugins/*"],

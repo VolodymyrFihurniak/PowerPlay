@@ -1,11 +1,15 @@
 import { cors } from '@elysiajs/cors';
+import { APIRoute, BaseRoute } from '@routes';
+import { Elysia } from 'elysia';
+
 import Config from '@entities/config';
+
 import { unmatchedRoute } from '@errors/unmatchedRoute';
+
 import { loggingRoutePlugin } from '@plugins/loggingRoutePlugin';
 import { swaggerPlugin } from '@plugins/swaggerPlugin';
-import { APIRoute, BaseRoute } from '@routes';
+
 import { serverLogger } from '@utils/logger';
-import { Elysia } from 'elysia';
 
 class App {
   private config!: Config;
