@@ -1,3 +1,6 @@
+import { JWTOption } from '@elysiajs/jwt';
+import { Context } from 'elysia';
+
 interface AuthLogin {
   email?: string;
   nickname?: string;
@@ -12,19 +15,28 @@ interface AuthRegister {
   nickname: string;
 }
 
-abstract class AuthRepository {
-  abstract login(data: AuthLogin): Promise<string>;
-  abstract register(data: AuthRegister): Promise<string>;
-  abstract verify(token: string): Promise<string>;
-  abstract generateAccessToken(data: AuthLogin | AuthRegister): Promise<string>;
-  abstract generateRefreshToken(data: AuthLogin | AuthRegister): Promise<string>;
-  abstract refreshToken(token: string): Promise<string>;
-  abstract getAccessToken(token: string): Promise<string>;
-  abstract getRefreshToken(token: string): Promise<string>;
-  abstract deleteAccessToken(token: string): Promise<string>;
-  abstract deleteRefreshToken(token: string): Promise<string>;
-  abstract forgotPassword(email: string): Promise<string>;
-  abstract logout(token: string): Promise<string>;
+interface CustomJWT {
+  verify: (token: string) => Promise<JSON.JSONObject | boolean>;
+  sign: (payload: string, option: JWTOption) => Promise<string>;
 }
 
-export { AuthLogin, AuthRegister, AuthRepository };
+interface AuthContext extends Context {
+  jwt: CustomJWT;
+}
+
+abstract class AuthRepository {
+  //   TODO: abstract login(data: AuthLogin): Promise<string>;
+  //   TODO: abstract register(data: AuthRegister): Promise<string>;
+  abstract verify(token: string): Promise<JSON.JSONObject | boolean>;
+  //   TODO: abstract generateAccessToken(data: AuthLogin | AuthRegister): Promise<string>;
+  //   TODO: abstract generateRefreshToken(data: AuthLogin | AuthRegister): Promise<string>;
+  //   TODO: abstract refreshToken(payload: string): Promise<string>;
+  //   TODO: abstract getAccessToken(payload: string): Promise<string>;
+  //   TODO: abstract getRefreshToken(payload: string): Promise<string>;
+  //   TODO: abstract deleteAccessToken(payload: string): Promise<string>;
+  //   TODO: abstract deleteRefreshToken(payload: string): Promise<string>;
+  //   TODO: abstract forgotPassword(email: AuthLogin): Promise<string>;
+  //   TODO: abstract logout(payload: string): Promise<string>;
+}
+
+export { AuthLogin, AuthRegister, AuthRepository, CustomJWT, AuthContext };

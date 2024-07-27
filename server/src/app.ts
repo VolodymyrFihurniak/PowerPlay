@@ -1,8 +1,9 @@
 import { cors } from '@elysiajs/cors';
-import { APIRoute, BaseRoute } from '@routes';
+import { jwt } from '@elysiajs/jwt';
+import { APIRoute, AuthRoute, BaseRoute } from '@routes';
 import { Elysia } from 'elysia';
 
-import Config from '@entities/config';
+import { Config } from '@entities/config';
 
 import { unmatchedRoute } from '@errors/unmatchedRoute';
 
@@ -28,17 +29,19 @@ class App {
     return new Config(env);
   }
 
-  public injectPlugin = (): void => {
+  public injectPlugin = (config: Config): void => {
     this.elysia.use(loggingRoutePlugin(serverLogger));
     this.elysia.use(cors());
+    this.elysia.use(jwt({ name: 'jwt', secret: config.authSecret }));
     this.elysia.use(swaggerPlugin);
     this.elysia.use(unmatchedRoute);
   };
 
   public init = async (): Promise<void> => {
-    this.injectPlugin();
-    this.routes.push(new APIRoute('API'));
     this.config = this.getConfig(process.env);
+    this.injectPlugin(this.config);
+    this.routes.push(new APIRoute('API', this.config));
+    this.routes.push(new AuthRoute('Auth', this.config));
   };
 
   public start = async (): Promise<void> => {

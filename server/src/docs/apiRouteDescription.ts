@@ -1,6 +1,6 @@
 const TAGS_GROUP = ['API'];
 
-const getAPIVersionDescription = {
+const GETAPIVersionDescription = {
   detail: {
     tags: TAGS_GROUP,
     description: 'Get the version of the API',
@@ -9,4 +9,4 @@ const getAPIVersionDescription = {
   },
 };
 
-export { getAPIVersionDescription };
+export { GETAPIVersionDescription };
