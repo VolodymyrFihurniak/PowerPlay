@@ -20,7 +20,7 @@ class AuthRoute extends BaseRoute {
   public configureRoutes(): Elysia {
     this.app.get('/verify', this.controller.getVerify, {
       headers: t.Object({
-        authorization: t.String(),
+        authorization: t.TemplateLiteral('Bearer ${string}'),
       }),
       ...GETAUTHVerify,
     });
