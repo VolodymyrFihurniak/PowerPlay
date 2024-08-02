@@ -1,11 +1,13 @@
 class Config {
   readonly appBind: string;
   readonly appPort: number;
-  readonly authSecret: string;
+  readonly authAccessSecret: string;
+  readonly authRefreshSecret: string;
   constructor(env: Record<string, string | undefined>, configJSON?: JSON.JSONObject) {
     this.appBind = env.app_bind || configJSON?.app.bind || '0.0.0.0';
     this.appPort = parseInt(env.app_port || configJSON?.app.port) || 3000;
-    this.authSecret = env.auth_secret || configJSON?.auth.secret;
+    this.authAccessSecret = env.auth_access_secret || configJSON?.auth.accessSecret;
+    this.authRefreshSecret = env.auth_refresh_secret || configJSON?.auth.refreshSecret;
   }
 }
 

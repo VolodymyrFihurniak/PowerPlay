@@ -15,13 +15,14 @@ interface AuthRegister {
   nickname: string;
 }
 
-interface CustomJWT {
-  verify: (token: string) => Promise<JSON.JSONObject | boolean>;
-  sign: (payload: string, option: JWTOption) => Promise<string>;
+interface AuthContext extends Context {
+  jwtAccess?: CustomJWT;
+  jwtRefresh?: CustomJWT;
 }
 
-interface AuthContext extends Context {
-  jwt: CustomJWT;
+interface CustomJWT extends JWTOption {
+  verify: (token: string) => Promise<JSON.JSONObject | boolean>;
+  sign: (payload: JSON.JSONObject) => Promise<string>;
 }
 
 abstract class AuthRepository {
@@ -39,4 +40,4 @@ abstract class AuthRepository {
   //   TODO: abstract logout(payload: string): Promise<string>;
 }
 
-export { AuthLogin, AuthRegister, AuthRepository, CustomJWT, AuthContext };
+export { AuthLogin, AuthRegister, AuthRepository, AuthContext, CustomJWT };
