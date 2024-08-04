@@ -2,7 +2,7 @@
   "name": "power-play-server",
   "version": "1.0.0",
   "scripts": {
-    "dev": "bun --watch src/server.ts",
+    "dev": "bun --inspect --watch src/server.ts",
     "build": "bun build src/server.ts",
     "start": "NODE_ENV=production bun src/server.ts",
     "test": "bun test",

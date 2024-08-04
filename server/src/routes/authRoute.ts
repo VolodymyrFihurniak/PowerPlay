@@ -2,9 +2,14 @@ import { Elysia, t } from 'elysia';
 
 import { AuthController } from '@controllers/authController';
 
-import { GETAUTHVerify } from '@docs/authRouteDescription';
+import {
+  POSTGenerateAccessToken,
+  POSTGenerateRefreshToken,
+} from '@docs/authRouteDescription';
 
 import { Config } from '@entities/config';
+
+import { jwtAccessPlugin, jwtRefreshPlugin } from '@plugins/authPlugin';
 
 import BaseRoute from '@routes/baseRoute';
 
@@ -18,12 +23,20 @@ class AuthRoute extends BaseRoute {
   }
 
   public configureRoutes(): Elysia {
-    this.app.get('/verify', this.controller.getVerify, {
-      headers: t.Object({
-        authorization: t.TemplateLiteral('Bearer ${string}'),
-      }),
-      ...GETAUTHVerify,
-    });
+    this.app
+      .use(jwtAccessPlugin(this.config))
+      .use(jwtRefreshPlugin(this.config))
+      .post('/generate-access-token', this.controller.generateAccessToken, {
+        headers: t.Object({
+          refresh_token: t.TemplateLiteral('Bearer ${string}'),
+        }),
+        ...POSTGenerateAccessToken,
+      })
+      .post(
+        '/generate-refresh-token',
+        async () => 'generate',
+        POSTGenerateRefreshToken
+      );
     return this.app;
   }
 }

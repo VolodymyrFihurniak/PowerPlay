@@ -34,7 +34,7 @@
       "@controllers/*": ["src/controllers/*"],
       "@utils/*": ["src/utils/*"],
       "@entities/*": ["src/entities/*"],
-      "@middlewares/*": ["src/plugins/*"],
+      "@middlewares/*": ["src/middlewares/*"],
       "@repositories/*": ["src/repositories/*"],
       "@plugins/*": ["src/plugins/*"],
       "@errors/*": ["src/errors/*"],

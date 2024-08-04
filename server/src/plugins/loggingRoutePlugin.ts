@@ -10,7 +10,9 @@ export const loggingRoutePlugin =
 
         const { method, url } = ctx.request ?? {};
         if (method && url) {
-          logger.info(`Request: ${method} ${url} from ${socketAddress?.address}:${socketAddress?.port}`);
+          logger.info(
+            `Request: ${method} ${url} from ${socketAddress?.address}:${socketAddress?.port}`
+          );
         } else {
           logger.warn('Request method or URL is undefined');
         }

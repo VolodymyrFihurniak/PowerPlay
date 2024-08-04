@@ -37,6 +37,5 @@
     "editor.defaultFormatter": "EditorConfig.EditorConfig",
     "editor.formatOnSave": true
   },
-  "IDX.aI.enableInlineCompletion": true,
-  "IDX.aI.enableCodebaseIndexing": true
+  "editor.rulers": [88],
 }

@@ -1,10 +1,16 @@
-import { Elysia } from 'elysia';
+import { Elysia, t } from 'elysia';
+
+import { AuthContext } from '@src/interfaces/authRepository';
 
 import { APIController } from '@controllers/apiController';
 
 import { GETAPIVersionDescription } from '@docs/apiRouteDescription';
 
 import { Config } from '@entities/config';
+
+import { authMiddleware } from '@middlewares/authMiddleware';
+
+import { jwtAccessPlugin } from '@plugins/authPlugin';
 
 import BaseRoute from '@routes/baseRoute';
 
@@ -18,7 +24,19 @@ class APIRoute extends BaseRoute {
   }
 
   public configureRoutes(): Elysia {
-    this.app.get('/version', this.controller.getAPIVersion, GETAPIVersionDescription);
+    this.app
+      .guard({
+        headers: t.Object({
+          authorization: t.TemplateLiteral('Bearer ${string}'),
+        }),
+      })
+      .use(jwtAccessPlugin(this.config))
+      .get('/version', this.controller.getAPIVersion, {
+        beforeHandle: async ({ jwtAccess, headers, set }) =>
+          authMiddleware({ jwtAccess, headers, set } as unknown as AuthContext),
+        ...GETAPIVersionDescription,
+      })
+      .get('/test', async ({ jwtAccess }) => jwtAccess.sign({ test: 'test' }));
     return this.app;
   }
 }

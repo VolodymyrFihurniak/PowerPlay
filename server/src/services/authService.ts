@@ -2,8 +2,8 @@ import { AuthRepository } from '@interfaces/authRepository';
 
 class AuthService {
   constructor(readonly db: AuthRepository) {}
-  public verify = async (token: string) => {
-    return await this.db.verify(token);
+  public generateAccessToken = async (payload: string): Promise<JSON.JSONObject> => {
+    return this.db.generateAccessToken(payload);
   };
 }
 

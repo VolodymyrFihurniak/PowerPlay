@@ -35,5 +35,12 @@ export default tseslint.config(
       ...eslintConfigPrettier.rules,
       'max-lines': ['warn', { max: 124 }],
     },
+  },
+  {
+    settings: {
+      prettier: {
+        printWidth: 88,
+      },
+    },
   }
 );

@@ -3,20 +3,22 @@ import { Elysia } from 'elysia';
 
 import { Config } from '@entities/config';
 
-const authAccessPlugin = (config: Config) => (app: Elysia) => {
-  return app.use(
-    new Elysia({ name: 'auth-access-plugin' }).use(
-      jwt({ name: 'jwtAccess', secret: config.authAccessSecret, exp: '15m' })
-    )
+const jwtAccessPlugin = (config: Config) =>
+  new Elysia({ name: 'auth-jwt-access-plugin' }).use(
+    jwt({
+      name: 'jwtAccess',
+      secret: config.authAccessSecret,
+      exp: config.authAccessExp,
+    })
   );
-};
 
-const authRefreshPlugin = (config: Config) => (app: Elysia) => {
-  return app.use(
-    new Elysia({ name: 'auth-refresh-plugin' }).use(
-      jwt({ name: 'jwtRefresh', secret: config.authRefreshSecret, exp: '7d' })
-    )
+const jwtRefreshPlugin = (config: Config) =>
+  new Elysia({ name: 'auth-jwt-refresh-plugin' }).use(
+    jwt({
+      name: 'jwtRefresh',
+      secret: config.authRefreshSecret,
+      exp: config.authRefreshExp,
+    })
   );
-};
 
-export { authAccessPlugin, authRefreshPlugin };
+export { jwtAccessPlugin, jwtRefreshPlugin };
