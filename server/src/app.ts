@@ -47,10 +47,15 @@ class App {
     this.elysia.listen({
       port: this.config.appPort,
       hostname: this.config.appBind,
+      serverName: 'PowerPlay-HTTPS',
+      tls: {
+        key: Bun.file(this.config.appPathTLSKey),
+        cert: Bun.file(this.config.appPathTLSPem),
+      },
     });
     serverLogger.info(
-      'Server is running at ' +
-        `http://${this.elysia.server?.hostname}:${this.elysia.server?.port}`
+      'HTTPS Server is running at ' +
+        `https://${this.elysia.server?.hostname}:${this.elysia.server?.port}`
     );
   };
 }
