@@ -13,7 +13,7 @@ import {
 
 class AuthRepositoryImpl implements AuthRepository {
   constructor(
-    // readonly db: PrismaClient,
+    readonly db: PrismaClient,
     readonly config: Config,
     readonly jwtAccess?: CustomJWT,
     readonly jwtRefresh?: CustomJWT
@@ -24,6 +24,7 @@ class AuthRepositoryImpl implements AuthRepository {
     if (!verify) {
       throw new Error('RefreshToken is invalid');
     }
+    console.log(this.db.authToken.findMany());
     const result = await this.jwtAccess!.sign(verify);
     return { accessToken: result };
   }

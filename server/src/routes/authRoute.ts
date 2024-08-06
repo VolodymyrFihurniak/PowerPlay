@@ -1,3 +1,4 @@
+import { PrismaClient } from '@prisma/client';
 import { Elysia, t } from 'elysia';
 
 import { AuthController } from '@controllers/authController';
@@ -16,10 +17,10 @@ import BaseRoute from '@routes/baseRoute';
 class AuthRoute extends BaseRoute {
   private app: Elysia;
   private controller: AuthController;
-  constructor(name: string, config: Config) {
-    super(name, config);
+  constructor(name: string, dbClient: PrismaClient, config: Config) {
+    super(name, dbClient, config);
     this.app = new Elysia({ name, prefix: `/${name.toLowerCase()}` as '' });
-    this.controller = new AuthController(config);
+    this.controller = new AuthController(config, this.dbClient);
   }
 
   public configureRoutes(): Elysia {

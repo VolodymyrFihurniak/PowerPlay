@@ -1,4 +1,4 @@
-FROM alpine:3.20
+FROM alpine:3.20.2
 
 ARG USERNAME=default
 ARG USER_UID=1000
@@ -6,7 +6,7 @@ ARG USER_GID=$USER_UID
 
 RUN apk update && \
     apk upgrade && \
-    apk add sudo shadow openssh build-base \
+    apk add sudo shadow openssh libressl openssl3 build-base \
     openssl-dev npm bash git zsh bind-tools curl wget binutils libc6-compat
 
 RUN apk --no-cache add ca-certificates && \

@@ -1,3 +1,5 @@
+import { PrismaClient } from '@prisma/client';
+
 import { Config } from '@entities/config';
 
 import {
@@ -13,13 +15,18 @@ import { AuthRepositoryImpl } from '@repositories/authRepositoryImpl';
 import { AuthService } from '@services/authService';
 
 class AuthController {
-  constructor(readonly config: Config) {}
+  constructor(
+    readonly config: Config,
+    readonly dbClient: PrismaClient
+  ) {}
 
   public buildAuthService = async (
     jwtAccess?: CustomJWT,
     jwtRefresh?: CustomJWT
   ): Promise<AuthService> => {
-    return new AuthService(new AuthRepositoryImpl(this.config, jwtAccess, jwtRefresh));
+    return new AuthService(
+      new AuthRepositoryImpl(this.dbClient, this.config, jwtAccess, jwtRefresh)
+    );
   };
 
   public generateAccessToken = async ({

@@ -17,8 +17,8 @@
     "@elysiajs/cors": "^1.1.0",
     "@elysiajs/jwt": "^1.1.0",
     "@elysiajs/swagger": "^1.1.0",
-    "@prisma/client": "5.17.0",
-    "elysia": "^1.1.4",
+    "@prisma/client": "5.18.0",
+    "elysia": "^1.1.5",
     "log4js": "^6.9.1",
     "yaml": "^2.5.0"
   },
@@ -33,9 +33,9 @@
     "eslint-plugin-prettier": "^5.2.1",
     "globals": "^15.9.0",
     "prettier": "^3.3.3",
-    "prisma": "^5.17.0",
+    "prisma": "^5.18.0",
     "ts-node": "^10.9.2",
-    "typescript-eslint": "^8.0.0"
+    "typescript-eslint": "^8.0.1"
   },
   "module": "src/server.js"
 }

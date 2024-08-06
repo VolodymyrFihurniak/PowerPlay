@@ -1,4 +1,5 @@
 import { cors } from '@elysiajs/cors';
+import { PrismaClient } from '@prisma/client';
 import { APIRoute, AuthRoute, BaseRoute } from '@routes';
 import { Elysia } from 'elysia';
 
@@ -13,6 +14,7 @@ import { serverLogger } from '@utils/logger';
 
 class App {
   private config!: Config;
+  private dbClient!: PrismaClient;
   readonly routes: Array<BaseRoute> = [];
   constructor(readonly elysia: Elysia) {}
 
@@ -33,9 +35,10 @@ class App {
 
   public init = (): void => {
     this.config = this.getConfig(process.env);
+    this.dbClient = new PrismaClient();
     this.injectPlugin();
-    this.routes.push(new APIRoute('API', this.config));
-    this.routes.push(new AuthRoute('API/Auth', this.config));
+    this.routes.push(new APIRoute('API', this.dbClient, this.config));
+    this.routes.push(new AuthRoute('API/Auth', this.dbClient, this.config));
   };
 
   public start = async (): Promise<void> => {
