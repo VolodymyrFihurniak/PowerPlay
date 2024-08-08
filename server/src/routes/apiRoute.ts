@@ -11,7 +11,7 @@ import { Config } from '@entities/config';
 
 import { authMiddleware } from '@middlewares/authMiddleware';
 
-import { jwtAccessPlugin } from '@plugins/authPlugin';
+import { jwtAccessPlugin, jwtRefreshPlugin } from '@plugins/authPlugin';
 
 import BaseRoute from '@routes/baseRoute';
 
@@ -32,12 +32,13 @@ class APIRoute extends BaseRoute {
         }),
       })
       .use(jwtAccessPlugin(this.config))
+      .use(jwtRefreshPlugin(this.config))
       .get('/version', this.controller.getAPIVersion, {
         beforeHandle: async ({ jwtAccess, headers, set }) =>
           authMiddleware({ jwtAccess, headers, set } as unknown as AuthContext),
         ...GETAPIVersionDescription,
       })
-      .get('/test', async ({ jwtAccess }) => jwtAccess.sign({ test: 'test' }));
+      .get('/test', async ({ jwtRefresh }) => jwtRefresh.sign({ test: 'test' }));
     return this.app;
   }
 }

@@ -24,7 +24,6 @@ class AuthRepositoryImpl implements AuthRepository {
     if (!verify) {
       throw new Error('RefreshToken is invalid');
     }
-    console.log(this.db.authToken.findMany());
     const result = await this.jwtAccess!.sign(verify);
     return { accessToken: result };
   }
