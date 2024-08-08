@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-import { Context } from 'elysia';
 
 import { Config } from '@entities/config';
 
@@ -24,6 +23,11 @@ class AuthRepositoryImpl implements AuthRepository {
     if (!verify) {
       throw new Error('RefreshToken is invalid');
     }
+    // await this.db.accessToken.create({
+    //   data: {
+    //     userId: verify.userId,
+    //   },
+    // });
     const result = await this.jwtAccess!.sign(verify);
     return { accessToken: result };
   }

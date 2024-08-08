@@ -41,7 +41,7 @@ model AccessToken {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user RefreshToken @relation(fields: [userId], references: [id])
+  refreshToken RefreshToken @relation(fields: [userId], references: [id])
 }
 
 model Computer {
