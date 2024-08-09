@@ -42,24 +42,28 @@ class App {
   };
 
   public start = async (): Promise<void> => {
-    this.init();
-    this.routes.forEach((route) => {
-      serverLogger.info(`Configuring route: ${route.getName()}`);
-      this.elysia.use(route.configureRoutes());
-    });
-    this.elysia.listen({
-      port: this.config.appPort,
-      hostname: this.config.appBind,
-      serverName: 'PowerPlay-HTTPS',
-      tls: {
-        key: Bun.file(this.config.appPathTLSKey),
-        cert: Bun.file(this.config.appPathTLSPem),
-      },
-    });
-    serverLogger.info(
-      'HTTPS Server is running at ' +
-        `https://${this.elysia.server?.hostname}:${this.elysia.server?.port}`
-    );
+    try {
+      this.init();
+      this.routes.forEach((route) => {
+        serverLogger.info(`Configuring route: ${route.getName()}`);
+        this.elysia.use(route.configureRoutes());
+      });
+      this.elysia.listen({
+        port: this.config.appPort,
+        hostname: this.config.appBind,
+        serverName: 'PowerPlay-HTTPS',
+        tls: {
+          key: Bun.file(this.config.appPathTLSKey),
+          cert: Bun.file(this.config.appPathTLSPem),
+        },
+      });
+      serverLogger.info(
+        'HTTPS Server is running at ' +
+          `https://${this.elysia.server?.hostname}:${this.elysia.server?.port}`
+      );
+    } catch (error) {
+      serverLogger.error(error);
+    }
   };
 }
 

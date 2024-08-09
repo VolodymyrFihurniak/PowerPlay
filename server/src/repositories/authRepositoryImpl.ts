@@ -2,13 +2,7 @@ import { PrismaClient } from '@prisma/client';
 
 import { Config } from '@entities/config';
 
-import {
-  AuthContext,
-  AuthLogin,
-  AuthRegister,
-  AuthRepository,
-  CustomJWT,
-} from '@interfaces/authRepository';
+import { AuthRepository, CustomJWT } from '@interfaces/authRepository';
 
 class AuthRepositoryImpl implements AuthRepository {
   constructor(
@@ -19,16 +13,26 @@ class AuthRepositoryImpl implements AuthRepository {
   ) {}
 
   public async generateAccessToken(refreshToken: string): Promise<JSON.JSONObject> {
+    const refreshTokenId = await this.db.refreshToken.findUnique({
+      where: {
+        token: refreshToken,
+      },
+    });
+    if (!refreshTokenId) {
+      throw new Error('RefreshToken is invalid');
+    }
     const verify = await this.jwtRefresh?.verify(refreshToken);
     if (!verify) {
       throw new Error('RefreshToken is invalid');
     }
-    // await this.db.accessToken.create({
-    //   data: {
-    //     userId: verify.userId,
-    //   },
-    // });
     const result = await this.jwtAccess!.sign(verify);
+    await this.db.accessToken.create({
+      data: {
+        userId: refreshTokenId.userId,
+        token: result,
+        refreshTokenId: refreshTokenId.id,
+      },
+    });
     return { accessToken: result };
   }
 }

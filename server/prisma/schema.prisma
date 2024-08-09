@@ -8,25 +8,27 @@ datasource db {
 }
 
 model User {
-  id           Int            @id @default(autoincrement())
-  email        String         @unique
-  password     String
-  firstname    String
-  secondname   String
-  ncikname     String
-  role         UserRole       @default(USER)
-  reservations Reservation[]
-  sessions     Session[]
-  payments     Payment[]
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  RefreshToken RefreshToken[]
+  id             Int            @id @default(autoincrement())
+  email          String         @unique
+  password       String
+  firstname      String
+  secondname     String
+  ncikname       String         @unique
+  role           UserRole       @default(USER)
+  reservations   Reservation[]
+  sessions       Session[]
+  payments       Payment[]
+  isActivated    Boolean        @default(false)
+  activationLink String
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  RefreshToken   RefreshToken[]
 }
 
 model RefreshToken {
   id        Int      @id @default(autoincrement())
   userId    Int
-  token     String
+  token     String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -35,13 +37,14 @@ model RefreshToken {
 }
 
 model AccessToken {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  token     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             Int      @id @default(autoincrement())
+  userId         Int
+  token          String
+  refreshTokenId Int
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
-  refreshToken RefreshToken @relation(fields: [userId], references: [id])
+  refreshToken RefreshToken @relation(fields: [refreshTokenId], references: [id])
 }
 
 model Computer {

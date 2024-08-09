@@ -33,6 +33,7 @@
       "@docs/*": ["src/docs/*"],
       "@controllers/*": ["src/controllers/*"],
       "@utils/*": ["src/utils/*"],
+      "@dtos/*": ["src/dtos/*"],
       "@entities/*": ["src/entities/*"],
       "@middlewares/*": ["src/middlewares/*"],
       "@repositories/*": ["src/repositories/*"],

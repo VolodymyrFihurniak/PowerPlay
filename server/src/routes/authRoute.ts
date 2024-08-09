@@ -4,8 +4,12 @@ import { Elysia, t } from 'elysia';
 import { AuthController } from '@controllers/authController';
 
 import {
-  POSTGenerateAccessToken,
-  POSTGenerateRefreshToken,
+  POSTActivate,
+  POSTForgotPassword,
+  POSTLogin,
+  POSTLogout,
+  POSTRefresh,
+  POSTRegister,
 } from '@docs/authRouteDescription';
 
 import { Config } from '@entities/config';
@@ -27,17 +31,23 @@ class AuthRoute extends BaseRoute {
     this.app
       .use(jwtAccessPlugin(this.config))
       .use(jwtRefreshPlugin(this.config))
-      .post('/generate-access-token', this.controller.generateAccessToken, {
-        headers: t.Object({
-          refresh_token: t.TemplateLiteral('Bearer ${string}'),
-        }),
-        ...POSTGenerateAccessToken,
-      })
-      .post(
-        '/generate-refresh-token',
-        async () => 'generate',
-        POSTGenerateRefreshToken
-      );
+      .post('/register', () => 'register', POSTRegister)
+      .post('/login', () => 'login', POSTLogin)
+      .post('/logout', () => 'logout', POSTLogout)
+      .post('/forgot-password', () => 'forgot-password', POSTForgotPassword)
+      .post('/refresh', () => 'refresh', POSTRefresh)
+      .post('/activate/:link', () => 'activate', POSTActivate);
+    //   .post('/generate-access-token', this.controller.generateAccessToken, {
+    //     headers: t.Object({
+    //       refresh_token: t.TemplateLiteral('Bearer ${string}'),
+    //     }),
+    //     ...POSTGenerateAccessToken,
+    //   })
+    //   .post(
+    //     '/generate-refresh-token',
+    //     async () => 'generate',
+    //     POSTGenerateRefreshToken
+    //   );
     return this.app;
   }
 }
