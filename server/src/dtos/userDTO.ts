@@ -1,27 +1,35 @@
 import { UserRole } from '@entities/user';
 
-import { PaymentDTO } from './paymentDTO';
-import { ReservationDTO } from './reservationDTO';
-import { SessionDTO } from './sessionDTO';
-
 class UserDTO {
   constructor(
     readonly id: number,
     readonly email: string,
     readonly password: string,
     readonly firstName: string,
-    readonly lastName: string,
+    readonly secondName: string,
     readonly nickname: string,
     readonly role: UserRole,
     readonly isActivated: boolean,
     readonly activationLink: string,
     readonly createdAt: Date,
-    readonly updatedAt: Date,
-    readonly refreshToken: string,
-    readonly reservations?: ReservationDTO,
-    readonly sessions?: SessionDTO,
-    readonly payments?: PaymentDTO
+    readonly updatedAt: Date
   ) {}
+
+  public static toDTO = (data: JSON.JSONObject) => {
+    return new UserDTO(
+      data.id,
+      data.email,
+      data.password,
+      data.firstname,
+      data.secondname,
+      data.nickname,
+      data.role,
+      data.isactivated,
+      data.activationlink,
+      data.createdAt,
+      data.updatedAt
+    );
+  };
 }
 
 export { UserDTO };

@@ -11,7 +11,7 @@ CREATE TABLE "User" (
     "password" TEXT NOT NULL,
     "firstname" TEXT NOT NULL,
     "secondname" TEXT NOT NULL,
-    "ncikname" TEXT NOT NULL,
+    "nickname" TEXT NOT NULL,
     "role" "UserRole" NOT NULL DEFAULT 'USER',
     "isActivated" BOOLEAN NOT NULL DEFAULT false,
     "activationLink" TEXT NOT NULL,
@@ -104,7 +104,7 @@ CREATE TABLE "Payment" (
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_ncikname_key" ON "User"("ncikname");
+CREATE UNIQUE INDEX "User_nickname_key" ON "User"("nickname");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "RefreshToken_token_key" ON "RefreshToken"("token");

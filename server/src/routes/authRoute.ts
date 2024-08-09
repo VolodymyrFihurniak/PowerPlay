@@ -31,23 +31,21 @@ class AuthRoute extends BaseRoute {
     this.app
       .use(jwtAccessPlugin(this.config))
       .use(jwtRefreshPlugin(this.config))
-      .post('/register', () => 'register', POSTRegister)
+      .post('/register', this.controller.register, {
+        body: t.Object({
+          firstName: t.String(),
+          secondName: t.String(),
+          nickname: t.String(),
+          email: t.TemplateLiteral(`\${string}@\${string}.\${string}`),
+          password: t.String(),
+        }),
+        ...POSTRegister,
+      })
       .post('/login', () => 'login', POSTLogin)
       .post('/logout', () => 'logout', POSTLogout)
       .post('/forgot-password', () => 'forgot-password', POSTForgotPassword)
       .post('/refresh', () => 'refresh', POSTRefresh)
       .post('/activate/:link', () => 'activate', POSTActivate);
-    //   .post('/generate-access-token', this.controller.generateAccessToken, {
-    //     headers: t.Object({
-    //       refresh_token: t.TemplateLiteral('Bearer ${string}'),
-    //     }),
-    //     ...POSTGenerateAccessToken,
-    //   })
-    //   .post(
-    //     '/generate-refresh-token',
-    //     async () => 'generate',
-    //     POSTGenerateRefreshToken
-    //   );
     return this.app;
   }
 }

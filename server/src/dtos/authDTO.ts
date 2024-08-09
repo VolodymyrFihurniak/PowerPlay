@@ -17,7 +17,7 @@ class AuthLoginDTO {
 class AuthRegisterDTO {
   constructor(
     readonly firstName: string,
-    readonly lastName: string,
+    readonly secondName: string,
     readonly nickname: string,
     readonly email: string,
     readonly password: string,
@@ -26,14 +26,14 @@ class AuthRegisterDTO {
 
   public static fromRequest(body: {
     firstName: string;
-    lastName: string;
+    secondName: string;
     nickname: string;
     email: string;
     password: string;
   }): AuthRegisterDTO {
     return new AuthRegisterDTO(
       body.firstName,
-      body.lastName,
+      body.secondName,
       body.nickname,
       body.email,
       body.password

@@ -11,11 +11,11 @@ class AuthLogin {
 class AuthRegister {
   constructor(
     readonly firstName: string,
-    readonly lastName: string,
+    readonly secondName: string,
     readonly nickname: string,
     readonly email: string,
     readonly password: string,
-    readonly activationLink: string
+    readonly activationLink?: string
   ) {}
 }
 
