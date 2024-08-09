@@ -1,3 +1,5 @@
+import { UserRole } from './user';
+
 class AuthLogin {
   constructor(
     readonly email: string,
@@ -17,4 +19,11 @@ class AuthRegister {
   ) {}
 }
 
-export { AuthLogin, AuthRegister };
+class AuthPayload {
+  constructor(
+    readonly userId: number,
+    readonly role: UserRole
+  ) {}
+}
+
+export { AuthLogin, AuthRegister, AuthPayload };

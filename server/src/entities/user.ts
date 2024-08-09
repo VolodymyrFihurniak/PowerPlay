@@ -1,10 +1,14 @@
-import { UserRole } from '@entities/user';
+import { Payment } from './payment';
+import { Reservation } from './reservation';
+import { Session } from './session';
 
-import { PaymentDTO } from './paymentDTO';
-import { ReservationDTO } from './reservationDTO';
-import { SessionDTO } from './sessionDTO';
+enum UserRole {
+  ADMIN = 'admin',
+  MODERATOR = 'mod',
+  USER = 'user',
+}
 
-class UserDTO {
+class User {
   constructor(
     readonly id: number,
     readonly email: string,
@@ -18,10 +22,10 @@ class UserDTO {
     readonly createdAt: Date,
     readonly updatedAt: Date,
     readonly refreshToken: string,
-    readonly reservations?: ReservationDTO,
-    readonly sessions?: SessionDTO,
-    readonly payments?: PaymentDTO
+    readonly reservations?: Reservation,
+    readonly sessions?: Session,
+    readonly payments?: Payment
   ) {}
 }
 
-export { UserDTO };
+export { User, UserRole };
