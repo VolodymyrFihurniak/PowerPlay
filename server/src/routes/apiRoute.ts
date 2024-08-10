@@ -37,8 +37,7 @@ class APIRoute extends BaseRoute {
         beforeHandle: async ({ jwtAccess, headers, set }) =>
           authMiddleware({ jwtAccess, headers, set } as unknown as AuthContext),
         ...GETAPIVersionDescription,
-      })
-      .get('/test', async ({ jwtRefresh }) => jwtRefresh.sign({ test: 'test' }));
+      });
     return this.app;
   }
 }
