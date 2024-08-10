@@ -1,7 +1,11 @@
 import { AuthRepository } from '@interfaces/authRepository';
+import { UserRepository } from '@interfaces/userRepository';
 
 class AuthService {
-  constructor(readonly db: AuthRepository) {}
+  constructor(
+    readonly authDB: AuthRepository,
+    readonly userDB: UserRepository
+  ) {}
 }
 
 export { AuthService };

@@ -45,7 +45,10 @@ class AuthRoute extends BaseRoute {
       .post('/logout', () => 'logout', POSTLogout)
       .post('/forgot-password', () => 'forgot-password', POSTForgotPassword)
       .post('/refresh', () => 'refresh', POSTRefresh)
-      .post('/activate/:link', () => 'activate', POSTActivate);
+      .post('/activate/:link', () => this.controller.activate, {
+        query: t.Object({ link: t.String() }),
+        ...POSTActivate,
+      });
     return this.app;
   }
 }

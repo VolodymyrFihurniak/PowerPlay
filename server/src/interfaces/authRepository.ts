@@ -15,6 +15,8 @@ interface CustomJWT extends JWTOption {
   ) => Promise<false | (Record<string, string | number> & JWTPayloadSpec)>;
 }
 
-abstract class AuthRepository {}
+abstract class AuthRepository {
+  abstract activate: (link: string) => Promise<void>;
+}
 
 export { AuthRepository, AuthContext, CustomJWT };

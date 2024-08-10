@@ -107,6 +107,9 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 CREATE UNIQUE INDEX "User_nickname_key" ON "User"("nickname");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "User_activationLink_key" ON "User"("activationLink");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "RefreshToken_token_key" ON "RefreshToken"("token");
 
 -- AddForeignKey

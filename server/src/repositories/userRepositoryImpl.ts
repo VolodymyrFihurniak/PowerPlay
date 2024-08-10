@@ -45,6 +45,20 @@ class UserRepositoryImpl implements UserRepository {
     });
     return UserDTO.toDTO(result);
   };
+
+  public getUserByActivationLink = async (
+    activationLink: string
+  ): Promise<UserDTO | null> => {
+    const result = await this.db.user.findUnique({
+      where: {
+        activationLink,
+      },
+    });
+    if (!result) {
+      return null;
+    }
+    return UserDTO.toDTO(result);
+  };
 }
 
 export { UserRepositoryImpl };

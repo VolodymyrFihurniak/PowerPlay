@@ -19,7 +19,7 @@ model User {
   sessions       Session[]
   payments       Payment[]
   isActivated    Boolean        @default(false)
-  activationLink String
+  activationLink String         @unique
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
   RefreshToken   RefreshToken[]
