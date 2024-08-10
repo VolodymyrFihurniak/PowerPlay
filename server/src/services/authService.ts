@@ -6,6 +6,14 @@ class AuthService {
     readonly authDB: AuthRepository,
     readonly userDB: UserRepository
   ) {}
+
+  public activate = async (link: string) => {
+    const user = await this.userDB.getUserByActivationLink(link);
+    if (!user) {
+      throw new Error('Activation link is not valid');
+    }
+    await this.authDB.activate(link);
+  };
 }
 
 export { AuthService };

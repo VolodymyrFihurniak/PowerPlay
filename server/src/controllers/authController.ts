@@ -68,9 +68,11 @@ class AuthController {
   };
 
   public activate = async ({
-    query: { link },
+    params: { link },
   }: AuthContext): Promise<JSON.JSONObject> => {
     try {
+      const authService = await this.buildAuthService();
+      await authService.activate(link!);
       return { message: 'User activated' };
     } catch (error) {
       if (error instanceof Error) {

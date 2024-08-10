@@ -4,7 +4,7 @@ import { Elysia, t } from 'elysia';
 import { AuthController } from '@controllers/authController';
 
 import {
-  POSTActivate,
+  GETActivate,
   POSTForgotPassword,
   POSTLogin,
   POSTLogout,
@@ -45,9 +45,9 @@ class AuthRoute extends BaseRoute {
       .post('/logout', () => 'logout', POSTLogout)
       .post('/forgot-password', () => 'forgot-password', POSTForgotPassword)
       .post('/refresh', () => 'refresh', POSTRefresh)
-      .post('/activate/:link', () => this.controller.activate, {
-        query: t.Object({ link: t.String() }),
-        ...POSTActivate,
+      .get('/activate/:link', this.controller.activate, {
+        params: t.Object({ link: t.String() }),
+        ...GETActivate,
       });
     return this.app;
   }

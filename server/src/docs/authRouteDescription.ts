@@ -48,7 +48,7 @@ const POSTRefresh = {
   },
 };
 
-const POSTActivate = {
+const GETActivate = {
   detail: {
     tags: TAG_GROUP,
     description: 'Activate',
@@ -77,6 +77,6 @@ export {
   POSTLogin,
   POSTLogout,
   POSTRefresh,
-  POSTActivate,
   POSTForgotPassword,
+  GETActivate,
 };
