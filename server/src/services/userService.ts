@@ -17,8 +17,10 @@ class UserService {
     readonly mailService: MailService,
     readonly tokenService: TokenService
   ) {}
+
   public registration = async (
-    data: AuthRegister
+    data: AuthRegister,
+    url: string
   ): Promise<Record<string, string | UserDTO>> => {
     let candidate = await this.userDB.getUserByEmail(data.email);
     if (candidate) {
@@ -38,7 +40,10 @@ class UserService {
       password: hashPassword,
       activationLink: activateLink,
     });
-    await this.mailService.sendActivationMail(data.email, activateLink);
+    await this.mailService.sendActivationMail(
+      data.email,
+      `${url}/auth/activate/${activateLink}`
+    );
     const tokens = await this.tokenService.generateTokens({
       userId: userDTO.id,
       role: userDTO.role,
