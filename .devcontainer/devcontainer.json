@@ -29,7 +29,8 @@
         "eamodio.gitlens",
         "github.vscode-github-actions",
         "Prisma.prisma",
-        "usernamehw.errorlens"
+        "usernamehw.errorlens",
+        "bradlc.vscode-tailwindcss"
       ]
     }
   }

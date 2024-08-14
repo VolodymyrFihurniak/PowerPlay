@@ -1,0 +1,21 @@
+{
+	"folders": [
+        {
+            "name": "PowerPlay",
+            "path": ".."
+        },
+		{
+            "name": "PowerPlay-client",
+            "path": "../client"
+		},
+        {
+            "name": "PowerPlay-server",
+            "path": "../server"
+        }
+	],
+    "settings": {
+        "files.autoSave": "afterDelay",
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "editor.rulers": [88],
+    }
+}
