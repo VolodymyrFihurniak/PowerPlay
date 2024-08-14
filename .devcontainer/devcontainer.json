@@ -1,14 +1,14 @@
 {
-  "name": "PowerPlay: Alpine-3.20",
+  "name": "PowerPlay: archlinux:letest",
   "build": {
     "dockerfile": "Dockerfile",
     "args": {
-      "USERNAME": "${localEnv:USER}"
+      "USERNAME": "${localEnv:USER}",
+      "UID": "${localEnv:UID}"
     }
   },
-  "features": {
-    "ghcr.io/cirolosapio/devcontainers-features/alpine-node:0": {}
-  },
+  "features": {},
+  "remoteUser": "${localEnv:USER}",
   "customizations": {
     "vscode": {
       "extensions": [

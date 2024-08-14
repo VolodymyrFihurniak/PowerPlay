@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,16 +8,31 @@ datasource db {
 }
 
 model User {
-  id           Int           @id @default(autoincrement())
-  email        String        @unique
-  password     String
-  name         String
-  role         UserRole      @default(USER)
-  reservations Reservation[]
-  sessions     Session[]
-  payments     Payment[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  id             Int            @id @default(autoincrement())
+  email          String         @unique
+  password       String
+  firstname      String
+  secondname     String
+  nickname       String         @unique
+  role           UserRole       @default(USER)
+  reservations   Reservation[]
+  sessions       Session[]
+  payments       Payment[]
+  isActivated    Boolean        @default(false)
+  activationLink String         @unique
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  RefreshToken   RefreshToken[]
+}
+
+model RefreshToken {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
 }
 
 model Computer {
@@ -101,4 +110,5 @@ enum ComputerStatus {
   AVAILABLE
   IN_USE
   MAINTENANCE
+  BOOKED
 }

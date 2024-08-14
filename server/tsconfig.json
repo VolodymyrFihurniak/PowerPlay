@@ -29,11 +29,18 @@
     "paths": {
       "@src/*": ["src/*"] /* Specify a set of entries that re-map imports to additional lookup locations. */,
       "@routes": ["src/routes/"],
+      "@routes/*": ["src/routes/*"],
+      "@docs/*": ["src/docs/*"],
+      "@controllers/*": ["src/controllers/*"],
       "@utils/*": ["src/utils/*"],
+      "@dtos/*": ["src/dtos/*"],
       "@entities/*": ["src/entities/*"],
-      "@middlewares/*": ["src/plugins/*"],
+      "@middlewares/*": ["src/middlewares/*"],
+      "@repositories/*": ["src/repositories/*"],
       "@plugins/*": ["src/plugins/*"],
-      "@errors/*": ["src/errors/*"]
+      "@errors/*": ["src/errors/*"],
+      "@interfaces/*": ["src/interfaces/*"],
+      "@services/*": ["src/services/*"]
     } /* Specify a set of entries that re-map imports to additional lookup locations. */,
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     "typeRoots": [

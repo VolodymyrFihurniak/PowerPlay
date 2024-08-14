@@ -1,5 +1,13 @@
 declare namespace JSON {
-  type JSONValue = string | number | boolean | int | JSONObject | JSONArray | JSON2DArray | JSONError;
+  type JSONValue =
+    | string
+    | number
+    | boolean
+    | int
+    | JSONObject
+    | JSONArray
+    | JSON2DArray
+    | JSONError;
 
   interface JSONObject {
     [x: string]: JSONValue;
@@ -9,7 +17,7 @@ declare namespace JSON {
     [x: int]: JSONValue[];
   }
 
-  interface JSONArray extends Array<JSONValue> {}
+  type JSONArray = Array<JSONValue>;
 
   interface JSONError extends Error {
     name: string;
