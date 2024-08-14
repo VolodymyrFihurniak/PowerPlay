@@ -5,7 +5,6 @@ import { AuthController } from '@controllers/authController';
 
 import {
   GETActivate,
-  POSTForgotPassword,
   POSTLogin,
   POSTLogout,
   POSTRefresh,
@@ -37,14 +36,25 @@ class AuthRoute extends BaseRoute {
           secondName: t.String(),
           nickname: t.String(),
           email: t.TemplateLiteral(`\${string}@\${string}.\${string}`),
-          password: t.String(),
+          password: t.String({ minLength: 8, required: true }),
         }),
         ...POSTRegister,
       })
-      .post('/login', () => 'login', POSTLogin)
-      .post('/logout', () => 'logout', POSTLogout)
-      .post('/forgot-password', () => 'forgot-password', POSTForgotPassword)
-      .post('/refresh', () => 'refresh', POSTRefresh)
+      .post('/login', this.controller.login, {
+        body: t.Object({
+          email: t.TemplateLiteral(`\${string}@\${string}.\${string}`),
+          password: t.String(),
+        }),
+        ...POSTLogin,
+      })
+      .post('/logout', this.controller.logout, {
+        cookie: t.Object({ refreshToken: t.String() }),
+        ...POSTLogout,
+      })
+      .post('/refresh', this.controller.refresh, {
+        cookie: t.Object({ refreshToken: t.String() }),
+        ...POSTRefresh,
+      })
       .get('/activate/:link', this.controller.activate, {
         params: t.Object({ link: t.String() }),
         ...GETActivate,

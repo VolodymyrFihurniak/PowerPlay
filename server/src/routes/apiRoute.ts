@@ -25,19 +25,21 @@ class APIRoute extends BaseRoute {
   }
 
   public configureRoutes(): Elysia {
-    this.app
-      .guard({
+    this.app.guard(
+      {
         headers: t.Object({
           authorization: t.TemplateLiteral('Bearer ${string}'),
         }),
-      })
-      .use(jwtAccessPlugin(this.config))
-      .use(jwtRefreshPlugin(this.config))
-      .get('/version', this.controller.getAPIVersion, {
-        beforeHandle: async ({ jwtAccess, headers, set }) =>
-          authMiddleware({ jwtAccess, headers, set } as unknown as AuthContext),
-        ...GETAPIVersionDescription,
-      });
+      },
+      (app) =>
+        app
+          .use(jwtAccessPlugin(this.config))
+          .use(jwtRefreshPlugin(this.config))
+          .resolve(async ({ jwtAccess, headers, set }) =>
+            authMiddleware({ jwtAccess, headers, set } as unknown as AuthContext)
+          )
+          .get('/version', this.controller.getAPIVersion, GETAPIVersionDescription)
+    );
     return this.app;
   }
 }

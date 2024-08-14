@@ -29,6 +29,14 @@ class TokenRepositoryImpl implements TokenRepository {
       });
     }
   }
+
+  public async removeToken(refreshToken: string): Promise<void> {
+    await this.db.refreshToken.delete({
+      where: {
+        token: refreshToken,
+      },
+    });
+  }
 }
 
 export { TokenRepositoryImpl };

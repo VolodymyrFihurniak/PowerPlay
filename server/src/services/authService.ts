@@ -1,3 +1,5 @@
+import { ApiError } from '@errors/apiError';
+
 import { AuthRepository } from '@interfaces/authRepository';
 import { UserRepository } from '@interfaces/userRepository';
 
@@ -10,7 +12,7 @@ class AuthService {
   public activate = async (link: string) => {
     const user = await this.userDB.getUserByActivationLink(link);
     if (!user) {
-      throw new Error('Activation link is not valid');
+      throw ApiError.BadRequest('Activation link is not valid');
     }
     await this.authDB.activate(link);
   };

@@ -1,6 +1,7 @@
+/* eslint-disable max-lines */
 import { PrismaClient } from '@prisma/client';
 
-import { AuthRegister } from '@entities/auth';
+import { AuthLogin, AuthRegister } from '@entities/auth';
 import { Config } from '@entities/config';
 import { User } from '@entities/user';
 
@@ -26,7 +27,12 @@ class AuthController {
     return new UserService(
       new UserRepositoryImpl(this.dbClient),
       new MailService(this.config, new OAuthService(this.config)),
-      new TokenService(new TokenRepositoryImpl(this.dbClient), jwtAccess, jwtRefresh)
+      new TokenService(
+        new TokenRepositoryImpl(this.dbClient),
+        new UserRepositoryImpl(this.dbClient),
+        jwtAccess,
+        jwtRefresh
+      )
     );
   };
 
@@ -75,6 +81,75 @@ class AuthController {
       await authService.activate(link!);
       return { message: 'User activated' };
     } catch (error) {
+      if (error instanceof Error) {
+        return { error: error.message };
+      } else {
+        return { error: 'Unknown error' };
+      }
+    }
+  };
+
+  public login = async ({
+    body,
+    set,
+    cookie: { refreshToken },
+    jwtAccess,
+    jwtRefresh,
+  }: AuthContext): Promise<Record<string, string | User>> => {
+    try {
+      const authLogin = body as AuthLogin;
+      const userService = await this.buildUserService(jwtAccess!, jwtRefresh!);
+      const result = await userService.login(authLogin.email, authLogin.password);
+      refreshToken.set({
+        value: result.refreshToken,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        sameSite: 'strict',
+      });
+      return result;
+    } catch (error) {
+      set.status = 400;
+      if (error instanceof Error) {
+        return { error: error.message };
+      } else {
+        return { error: 'Unknown error' };
+      }
+    }
+  };
+
+  public logout = async ({
+    cookie: { refreshToken },
+    set,
+    jwtAccess,
+    jwtRefresh,
+  }: AuthContext): Promise<JSON.JSONObject> => {
+    try {
+      const userService = await this.buildUserService(jwtAccess!, jwtRefresh!);
+      await userService.logout(refreshToken.value!);
+      refreshToken.remove();
+      return { message: 'User logout' };
+    } catch (error) {
+      set.status = 400;
+      if (error instanceof Error) {
+        return { error: error.message };
+      } else {
+        return { error: 'Unknown error' };
+      }
+    }
+  };
+
+  public refresh = async ({
+    cookie: { refreshToken },
+    set,
+    jwtAccess,
+    jwtRefresh,
+  }: AuthContext): Promise<Record<string, string | User>> => {
+    try {
+      const userService = await this.buildUserService(jwtAccess!, jwtRefresh!);
+      const result = await userService.refresh(refreshToken.value!);
+      return result;
+    } catch (error) {
+      set.status = 400;
       if (error instanceof Error) {
         return { error: error.message };
       } else {

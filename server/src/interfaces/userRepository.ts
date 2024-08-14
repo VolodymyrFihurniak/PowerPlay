@@ -2,6 +2,7 @@ import { AuthRegisterDTO } from '@dtos/authDTO';
 import { UserDTO } from '@dtos/userDTO';
 
 abstract class UserRepository {
+  abstract getUserById(id: number): Promise<UserDTO | null>;
   abstract getUserByEmail(email: string): Promise<UserDTO | null>;
   abstract getUserByNickname(nickname: string): Promise<UserDTO | null>;
   abstract getUserByActivationLink(activationLink: string): Promise<UserDTO | null>;

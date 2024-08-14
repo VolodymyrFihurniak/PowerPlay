@@ -7,6 +7,8 @@ import { Config } from '@entities/config';
 
 import { unmatchedRoute } from '@errors/unmatchedRoute';
 
+import { errorMiddleware } from '@middlewares/errorMiddleware';
+
 import { loggingRoutePlugin } from '@plugins/loggingRoutePlugin';
 import { swaggerPlugin } from '@plugins/swaggerPlugin';
 
@@ -31,6 +33,7 @@ class App {
     this.elysia.use(cors());
     this.elysia.use(swaggerPlugin);
     this.elysia.use(unmatchedRoute);
+    this.elysia.use(errorMiddleware);
   };
 
   public init = (): void => {

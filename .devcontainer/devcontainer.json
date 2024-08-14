@@ -1,5 +1,5 @@
 {
-  "name": "PowerPlay: Ubuntu:24.10",
+  "name": "PowerPlay: archlinux:letest",
   "build": {
     "dockerfile": "Dockerfile",
     "args": {

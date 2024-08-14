@@ -24,7 +24,7 @@ class UserDTO {
       data.secondname,
       data.nickname,
       data.role,
-      data.isactivated,
+      data.isActivated,
       data.activationlink,
       data.createdAt,
       data.updatedAt

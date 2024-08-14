@@ -8,6 +8,18 @@ import { UserRepository } from '@interfaces/userRepository';
 class UserRepositoryImpl implements UserRepository {
   constructor(readonly db: PrismaClient) {}
 
+  public getUserById = async (id: number): Promise<UserDTO | null> => {
+    const result = await this.db.user.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!result) {
+      return null;
+    }
+    return UserDTO.toDTO(result);
+  };
+
   public getUserByEmail = async (email: string): Promise<UserDTO | null> => {
     const result = await this.db.user.findUnique({
       where: {

@@ -3,7 +3,6 @@ import { UserRole } from './user';
 class AuthLogin {
   constructor(
     readonly email: string,
-    readonly nickname: string,
     readonly password: string
   ) {}
 }
