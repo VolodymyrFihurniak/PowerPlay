@@ -1,24 +1,50 @@
 {
-  "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
+	"compilerOptions": {
+		"target": "ES2020",
+		"useDefineForClassFields": true,
+		"lib": ["ES2020", "DOM", "DOM.Iterable"],
+		"module": "ESNext",
+		"skipLibCheck": true,
 
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "isolatedModules": true,
-    "moduleDetection": "force",
-    "noEmit": true,
-    "jsx": "react-jsx",
+		/* Bundler mode */
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
+		"isolatedModules": true,
+		"moduleDetection": "force",
+		"noEmit": true,
+		"jsx": "react-jsx",
 
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
-  },
-  "include": ["src"]
+		/* Linting */
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+
+		/* Paths */
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["src/*"],
+			"@routes": ["src/routes/"],
+			"@routes/*": ["src/routes/*"],
+			"@docs/*": ["src/docs/*"],
+			"@controllers/*": ["src/controllers/*"],
+			"@utils/*": ["src/utils/*"],
+			"@dtos/*": ["src/dtos/*"],
+			"@entities/*": ["src/entities/*"],
+			"@middlewares/*": ["src/middlewares/*"],
+			"@repositories/*": ["src/repositories/*"],
+			"@plugins/*": ["src/plugins/*"],
+			"@errors/*": ["src/errors/*"],
+			"@interfaces/*": ["src/interfaces/*"],
+			"@services/*": ["src/services/*"],
+      "@extensions/*": ["src/extensions/*"],
+      "@http/*": ["src/http/*"],
+      "@models/*": ["src/models/*"],
+      "@components/*": ["src/components/*"],
+		},
+
+		/* Custom type */
+		"typeRoots": ["custom-typings", "node_modules/@types"]
+	},
+	"include": ["src"]
 }

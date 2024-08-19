@@ -1,8 +1,8 @@
 import nodemailer from 'nodemailer';
 
-import { Config } from '@entities/config';
+import type { Config } from '@entities/config';
 
-import { OAuthService } from './oAuthService';
+import type { OAuthService } from './oAuthService';
 
 class MailService {
   constructor(

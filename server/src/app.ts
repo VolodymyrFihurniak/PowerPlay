@@ -1,7 +1,7 @@
 import { cors } from '@elysiajs/cors';
 import { PrismaClient } from '@prisma/client';
-import { APIRoute, AuthRoute, BaseRoute } from '@routes';
-import { Elysia } from 'elysia';
+import { APIRoute, AuthRoute, type BaseRoute } from '@routes';
+import type { Elysia } from 'elysia';
 
 import { Config } from '@entities/config';
 
@@ -28,9 +28,14 @@ class App {
     return new Config(env);
   }
 
-  public injectPlugin = (): void => {
+  public injectPlugin = (config: Config): void => {
     this.elysia.use(loggingRoutePlugin(serverLogger));
-    this.elysia.use(cors());
+    this.elysia.use(
+      cors({
+        credentials: true,
+        origin: config.clientURL,
+      })
+    );
     this.elysia.use(swaggerPlugin);
     this.elysia.use(unmatchedRoute);
     this.elysia.use(errorMiddleware);
@@ -39,7 +44,7 @@ class App {
   public init = (): void => {
     this.config = this.getConfig(process.env);
     this.dbClient = new PrismaClient();
-    this.injectPlugin();
+    this.injectPlugin(this.config);
     this.routes.push(new APIRoute('API', this.dbClient, this.config));
     this.routes.push(new AuthRoute('API/Auth', this.dbClient, this.config));
   };
@@ -47,10 +52,10 @@ class App {
   public start = async (): Promise<void> => {
     try {
       this.init();
-      this.routes.forEach((route) => {
+      for (const route of this.routes) {
         serverLogger.info(`Configuring route: ${route.getName()}`);
         this.elysia.use(route.configureRoutes());
-      });
+      }
       this.elysia.listen({
         port: this.config.appPort,
         hostname: this.config.appBind,
@@ -61,8 +66,7 @@ class App {
         },
       });
       serverLogger.info(
-        'HTTPS Server is running at ' +
-          `https://${this.elysia.server?.hostname}:${this.elysia.server?.port}`
+        `HTTPS Server is running at https://${this.elysia.server?.hostname}:${this.elysia.server?.port}`
       );
     } catch (error) {
       serverLogger.error(error);

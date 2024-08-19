@@ -1,20 +1,34 @@
 {
-  "[json]": {
-    "editor.defaultFormatter": "biomejs.biome",
-    "editor.formatOnSave": true
-  },
-  "[typescript]": {
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-     "source.fixAll.ts": "explicit"
-    },
-    "editor.defaultFormatter": "biomejs.biome",
-  },
-  "[typescriptreact]": {
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-     "source.fixAll.ts": "explicit"
-    },
-    "editor.defaultFormatter": "biomejs.biome",
-  },
+	"[json]": {
+		"editor.defaultFormatter": "biomejs.biome",
+		"editor.formatOnSave": true
+	},
+	"[typescript]": {
+		"editor.formatOnSave": true,
+		"editor.codeActionsOnSave": {
+			"source.organizeImports": "explicit",
+			"source.fixAll.ts": "explicit"
+		}
+	},
+	"editor.codeActionsOnSave": {
+		"source.organizeImports": "explicit",
+		"source.fixAll.ts": "explicit"
+	},
+	"editor.defaultFormatter": "biomejs.biome",
+	"[typescriptreact]": {
+		"editor.formatOnSave": true,
+		"editor.codeActionsOnSave": {
+			"source.organizeImports": "explicit",
+			"source.fixAll.ts": "explicit"
+		},
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[javascript]": {
+		"editor.formatOnSave": true,
+		"editor.codeActionsOnSave": {
+			"source.organizeImports": "explicit",
+			"source.fixAll.ts": "explicit"
+		},
+		"editor.defaultFormatter": "biomejs.biome"
+	}
 }

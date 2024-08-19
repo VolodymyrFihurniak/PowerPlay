@@ -1,13 +1,13 @@
 import { Auth } from 'googleapis';
 
-import { Config } from '@entities/config';
+import type { Config } from '@entities/config';
 
 class OAuthService {
   private oAuth2!: Auth.OAuth2Client;
   private static instance: OAuthService;
   constructor(readonly config: Config) {
     if (OAuthService.instance) {
-      return OAuthService.instance;
+      return;
     }
     this.oAuth2 = new Auth.OAuth2Client(
       config.oauthClientID,

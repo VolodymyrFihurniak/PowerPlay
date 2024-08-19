@@ -1,6 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+import type { PrismaClient } from '@prisma/client';
 
-import { TokenRepository } from '@interfaces/tokenRepository';
+import type { TokenRepository } from '@interfaces/tokenRepository';
 
 class TokenRepositoryImpl implements TokenRepository {
   constructor(readonly db: PrismaClient) {}
@@ -37,6 +37,21 @@ class TokenRepositoryImpl implements TokenRepository {
       },
     });
   }
+
+  public getRefreshTokenId = async (token: string): Promise<number | null> => {
+    const result = await this.db.refreshToken.findUnique({
+      where: {
+        token,
+      },
+      select: {
+        id: true,
+      },
+    });
+    if (!result) {
+      return null;
+    }
+    return result.id;
+  };
 }
 
 export { TokenRepositoryImpl };
