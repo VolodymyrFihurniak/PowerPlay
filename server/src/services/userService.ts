@@ -1,17 +1,18 @@
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 
-import { UserDTO } from '@src/dtos/userDTO';
+import type { UserDTO } from '@src/dtos/userDTO';
 import { UserMapper } from '@src/mappers/userMapper';
 
-import { AuthRegister } from '@entities/auth';
+import type { AuthRegister } from '@entities/auth';
+import type { User } from '@entities/user';
 
 import { ApiError } from '@errors/apiError';
 
-import { UserRepository } from '@interfaces/userRepository';
+import type { UserRepository } from '@interfaces/userRepository';
 
-import { MailService } from './mailService';
-import { TokenService } from './tokenService';
+import type { MailService } from './mailService';
+import type { TokenService } from './tokenService';
 
 class UserService {
   constructor(
@@ -23,7 +24,7 @@ class UserService {
   public registration = async (
     data: AuthRegister,
     url: string
-  ): Promise<Record<string, string | UserDTO>> => {
+  ): Promise<Record<string, string | User>> => {
     let candidate = await this.userDB.getUserByEmail(data.email);
     if (candidate) {
       throw ApiError.BadRequest('User with this email already exists');
@@ -34,7 +35,7 @@ class UserService {
     }
     const hashPassword = await bcrypt.hash(data.password, 5);
     const activateLink = uuidv4();
-    const userDTO = await this.userDB.createUser({
+    const userDTO: UserDTO = await this.userDB.createUser({
       firstName: data.firstName,
       secondName: data.secondName,
       nickname: data.nickname,
@@ -52,7 +53,7 @@ class UserService {
   public login = async (
     email: string,
     password: string
-  ): Promise<Record<string, string | UserDTO>> => {
+  ): Promise<Record<string, string | User>> => {
     const candidate = await this.userDB.getUserByEmail(email);
     if (!candidate) {
       throw ApiError.BadRequest('User with this email not found');
@@ -67,7 +68,9 @@ class UserService {
     return await this.createAndStoreTokens(candidate);
   };
 
-  public createAndStoreTokens = async (candidate: UserDTO) => {
+  public createAndStoreTokens = async (
+    candidate: UserDTO
+  ): Promise<Record<string, string | User>> => {
     const tokens = await this.tokenService.generateTokens({
       userId: candidate.id,
       role: candidate.role,
@@ -82,8 +85,25 @@ class UserService {
   };
 
   public refresh = async (refreshToken: string) => {
-    const token = await this.tokenService.refreshTokens(refreshToken);
-    return token;
+    const userData = await this.tokenService.jwtRefresh.verify(refreshToken);
+    if (!userData || typeof userData === 'boolean') {
+      const refreshTokenDB = await this.tokenService.db.getRefreshTokenId(refreshToken);
+      if (refreshTokenDB) {
+        await this.tokenService.removeToken(refreshToken);
+      }
+      throw ApiError.Unauthorized('Invalid refresh token');
+    }
+    const userDataDB = await this.userDB.getUserById(Number(userData.userId));
+    if (!userDataDB) {
+      throw ApiError.Unauthorized('Invalid refresh token in DB');
+    }
+
+    const accessToken = await this.tokenService.generateAccessToken({
+      userId: userDataDB.id,
+      role: userDataDB.role,
+    });
+
+    return { accessToken, user: new UserMapper().toEntity(userDataDB) };
   };
 }
 

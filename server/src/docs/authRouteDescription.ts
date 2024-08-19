@@ -36,7 +36,7 @@ const POSTLogout = {
   },
 };
 
-const POSTRefresh = {
+const GETRefresh = {
   detail: {
     tags: TAG_GROUP,
     description: 'Refresh',
@@ -76,7 +76,7 @@ export {
   POSTRegister,
   POSTLogin,
   POSTLogout,
-  POSTRefresh,
+  GETRefresh,
   POSTForgotPassword,
   GETActivate,
 };

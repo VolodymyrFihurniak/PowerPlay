@@ -1,7 +1,7 @@
 import { ApiError } from '@errors/apiError';
 
-import { AuthRepository } from '@interfaces/authRepository';
-import { UserRepository } from '@interfaces/userRepository';
+import type { AuthRepository } from '@interfaces/authRepository';
+import type { UserRepository } from '@interfaces/userRepository';
 
 class AuthService {
   constructor(

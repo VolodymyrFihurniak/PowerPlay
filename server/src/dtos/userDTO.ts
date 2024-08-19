@@ -1,4 +1,4 @@
-import { UserRole } from '@entities/user';
+import type { UserRole } from '@entities/user';
 
 class UserDTO {
   constructor(
@@ -25,7 +25,7 @@ class UserDTO {
       data.nickname,
       data.role,
       data.isActivated,
-      data.activationlink,
+      data.activationLink,
       data.createdAt,
       data.updatedAt
     );

@@ -1,9 +1,9 @@
-import { PrismaClient } from '@prisma/client';
+import type { PrismaClient } from '@prisma/client';
 
-import { AuthRegisterDTO } from '@dtos/authDTO';
+import type { AuthRegisterDTO } from '@dtos/authDTO';
 import { UserDTO } from '@dtos/userDTO';
 
-import { UserRepository } from '@interfaces/userRepository';
+import type { UserRepository } from '@interfaces/userRepository';
 
 class UserRepositoryImpl implements UserRepository {
   constructor(readonly db: PrismaClient) {}

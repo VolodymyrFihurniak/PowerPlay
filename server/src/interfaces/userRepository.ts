@@ -1,5 +1,5 @@
-import { AuthRegisterDTO } from '@dtos/authDTO';
-import { UserDTO } from '@dtos/userDTO';
+import type { AuthRegisterDTO } from '@dtos/authDTO';
+import type { UserDTO } from '@dtos/userDTO';
 
 abstract class UserRepository {
   abstract getUserById(id: number): Promise<UserDTO | null>;

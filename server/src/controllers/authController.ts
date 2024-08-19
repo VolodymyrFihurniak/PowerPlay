@@ -1,11 +1,13 @@
 /* eslint-disable max-lines */
-import { PrismaClient } from '@prisma/client';
+import type { PrismaClient } from '@prisma/client';
 
-import { AuthLogin, AuthRegister } from '@entities/auth';
-import { Config } from '@entities/config';
-import { User } from '@entities/user';
+import type { AuthLogin, AuthRegister } from '@entities/auth';
+import type { Config } from '@entities/config';
+import type { User } from '@entities/user';
 
-import { AuthContext, CustomJWT } from '@interfaces/authRepository';
+import { ApiError } from '@errors/apiError';
+
+import type { AuthContext, CustomJWT } from '@interfaces/authRepository';
 
 import { AuthRepositoryImpl } from '@repositories/authRepositoryImpl';
 import { TokenRepositoryImpl } from '@repositories/tokenRepositoryImpl';
@@ -58,18 +60,20 @@ class AuthController {
       const result = await userService.registration(authRegister, url);
       refreshToken.set({
         value: result.refreshToken,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
+        maxAge: 7 * 24 * 60 * 60,
         httpOnly: true,
-        sameSite: 'strict',
+        sameSite: 'none',
+        priority: 'high',
+        secure: true,
+        path: '/',
       });
       return result;
     } catch (error) {
       set.status = 400;
       if (error instanceof Error) {
         return { error: error.message };
-      } else {
-        return { error: 'Unknown error' };
       }
+      return { error: 'Unknown error' };
     }
   };
 
@@ -83,9 +87,8 @@ class AuthController {
     } catch (error) {
       if (error instanceof Error) {
         return { error: error.message };
-      } else {
-        return { error: 'Unknown error' };
       }
+      return { error: 'Unknown error' };
     }
   };
 
@@ -102,18 +105,20 @@ class AuthController {
       const result = await userService.login(authLogin.email, authLogin.password);
       refreshToken.set({
         value: result.refreshToken,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
+        maxAge: 7 * 24 * 60 * 60,
         httpOnly: true,
-        sameSite: 'strict',
+        sameSite: 'none',
+        priority: 'high',
+        secure: true,
+        path: '/',
       });
       return result;
     } catch (error) {
       set.status = 400;
-      if (error instanceof Error) {
+      if (error instanceof ApiError) {
         return { error: error.message };
-      } else {
-        return { error: 'Unknown error' };
       }
+      return { error: 'Unknown error' };
     }
   };
 
@@ -130,11 +135,10 @@ class AuthController {
       return { message: 'User logout' };
     } catch (error) {
       set.status = 400;
-      if (error instanceof Error) {
+      if (error instanceof ApiError) {
         return { error: error.message };
-      } else {
-        return { error: 'Unknown error' };
       }
+      return { error: 'Unknown error' };
     }
   };
 
@@ -150,11 +154,10 @@ class AuthController {
       return result;
     } catch (error) {
       set.status = 400;
-      if (error instanceof Error) {
+      if (error instanceof ApiError) {
         return { error: error.message };
-      } else {
-        return { error: 'Unknown error' };
       }
+      return { error: 'Unknown error' };
     }
   };
 }
