@@ -6,7 +6,6 @@ abstract class UserRepository {
   abstract getUserByEmail(email: string): Promise<UserDTO | null>;
   abstract getUserByNickname(nickname: string): Promise<UserDTO | null>;
   abstract getUserByActivationLink(activationLink: string): Promise<UserDTO | null>;
-  abstract getRefreshTokenId(token: string): Promise<number | null>;
   abstract createUser(data: AuthRegisterDTO): Promise<UserDTO>;
 }
 
